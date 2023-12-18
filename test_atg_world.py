@@ -1,7 +1,7 @@
 """
 Example written for Qxf2 Services' blog post on Python Unit Checking
 Check if IsCheckmate method in ChessRules class calls GetListOfValidMoves  
-Assert that it called at least once with some expected argument
+Assert that the mocked method is called 16 times
 """
 import unittest, mock
 import ChessRules 
@@ -11,7 +11,7 @@ class CheckIsCheckmate(unittest.TestCase):
     "Class to unit check the IsCheckmate method of ChessRules.py module"
     # creating a mock for GetListOfValidMoves
     @mock.patch('ChessRules.ChessRules.GetListOfValidMoves')        
-    def test_called_with_args(self, mockGetListOfValidMoves):
+    def test_call_count(self, mockGetListOfValidMoves):
         "Unit test for ChessRules method: IsCheckmate"
  
         # Creating objects of Chessboard and ChessRules class and calling IsCheckmate function with each piece for initial position and "black" color
@@ -27,8 +27,8 @@ class CheckIsCheckmate(unittest.TestCase):
                 expected_arg_calls.append(mock.call(cb.GetState(), 'black', (row, col)))
  
  
-        # assert that method was called at least once with some argument        
-        mockGetListOfValidMoves.assert_any_call(cb.GetState(),"black",(1,6))
+        # check the number of times your mocked method was called
+        self.assertEqual(mockGetListOfValidMoves.call_count,16)
  
  
 if __name__=="__main__":
